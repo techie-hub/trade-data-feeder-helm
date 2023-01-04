@@ -1,7 +1,7 @@
 marketaux:
-  #Since Outbound envoy proxy is configured at localhost:8085; The api.marketaux.com need to be replaced with  "localhost:8085" while running on kubernetes
-  #url: https://api.marketaux.com/v1/news/all
-  url: http://localhost:8085/v1/news/all
+  #ToDO config envoy proxy using config.yaml file
+  url: https://api.marketaux.com/v1/news/all
+  #url: http://localhost:8085/v1/news/all
   # The Base64 encode token need to be passed to the env variable "MAGIC_LETTERS"
   magicLetters: ${MAGIC_LETTERS}
 

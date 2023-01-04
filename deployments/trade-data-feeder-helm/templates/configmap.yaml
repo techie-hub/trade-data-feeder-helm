@@ -1,65 +1,7 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: trade-data-feeder
-spec:
-  selector:
-    matchLabels:
-      app: trade-data-feeder
-  replicas: 2
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 2
-      maxUnavailable: 0
-  template:
-    metadata:
-      namespace: merugu
-      labels:
-        app: trade-data-feeder
-    spec:
-      containers:
-        - name: trade-data-feeder
-          image: merugu/trade-data-feeder:latest
-          ports:
-            - containerPort: 8080
-          env:
-            - name: MAGIC_LETTERS
-              valueFrom:
-                secretKeyRef:
-                  key: api.key
-                  name: api-secret
-        - name: trade-data-feeder-envoy
-          image: merugu/techie-hub-envoy:latest
-          imagePullPolicy: IfNotPresent
-          command:
-            - "/usr/local/bin/envoy"
-            - -c
-            - "/envoy/envoy.yaml"
-            - --service-cluster trade-data-feeder-envoy
-          ports:
-            - containerPort: 9080
-              protocol: TCP
-            - containerPort: 8001
-              protocol: TCP
-          volumeMounts:
-            - mountPath: /envoy
-              name: envoy-config
-              readOnly: true
-      volumes:
-        - name: envoy-config
-          configMap:
-            name: trade-data-feeder-envoy
-        - name: api-secret
-          secret:
-            defaultMode: 420
-            secretName: api-secret
-
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: trade-data-feeder-envoy
+  name:  {{ include "trade-data-feeder-helm.fullname" . }}
 data:
   envoy.yaml: |
     static_resources:
@@ -125,8 +67,8 @@ data:
                                   retry_on: 5xx
                                   num_retries: 2
                                   per_try_timeout: 1s
-                          
-
+      
+      
       clusters:
         - name: app
           type: LOGICAL_DNS
@@ -174,21 +116,3 @@ data:
         socket_address:
           address: 0.0.0.0
           port_value: 8001
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: trade-data-feeder-service
-spec:
-  selector:
-    app: trade-data-feeder
-  ports:
-    - name: http
-      port: 80
-    - name: ingress
-      protocol: TCP
-      port: 9080
-      targetPort: 9080
-  type: NodePort
-
