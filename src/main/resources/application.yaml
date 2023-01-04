@@ -1,0 +1,8 @@
+marketaux:
+  #ToDO config envoy proxy using config.yaml file
+  url: https://api.marketaux.com/v1/news/all
+  #url: http://localhost:8085/v1/news/all
+  # The Base64 encode token need to be passed to the env variable "MAGIC_LETTERS"
+  magicLetters: ${MAGIC_LETTERS}
+
+
