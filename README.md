@@ -36,8 +36,11 @@ And use Envoy proxy as service proxy for cloud Native applications.
 
 ## Kubectl Commands CheatCode:
 
-[KUBECTL CHEATSHEET](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+[Kubectl CheatSheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 
+## Kubernetes getting started here:
+
+[Learn and Live](https://kubernetes.io/docs/setup/)
 
 
 
