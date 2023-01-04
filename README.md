@@ -34,6 +34,9 @@ And use Envoy proxy as service proxy for cloud Native applications.
   Note: Make sure "dockerd" is enabled in Rancher desktop
 * Download Lens Desktop from here [LENS DESKTOP](https://k8slens.dev/) 
 
+## Kubectl Commands CheatCode:
+
+[KUBECTL CHEATSHEET](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 
 
 
